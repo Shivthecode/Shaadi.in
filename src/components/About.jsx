@@ -7,10 +7,10 @@ const About = () => {
 
   // 🔥 Yahan apne 4 images ke path daal dena jo tum About section mein dikhana chahte ho
   const aboutImages = [
-    "src/assets/couple-about.png", // Pehli image wahi purani wali
-    "src/assets/crop1.jpg",
-    "src/assets/crop2.jpg",
-    "src/assets/crop3.jpg"
+    "https://ik.imagekit.io/rbrxweg2q/crop2.jpg", // Pehli image wahi purani wali
+    "https://ik.imagekit.io/rbrxweg2q/crop1.jpg",
+    "https://ik.imagekit.io/rbrxweg2q/crop3.jpg",
+    "https://ik.imagekit.io/rbrxweg2q/couple-about.png"
   ];
 
   // 🔥 Automatic slide logic (har 3.5 seconds mein image change hogi)

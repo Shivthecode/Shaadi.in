@@ -5,10 +5,10 @@ const Hero = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
   const backgroundImages = [
-    { desktop: "src/assets/couple.jpeg" }, 
-    { desktop: "src/assets/muslim-couple.jpg" }, 
-    { desktop: "src/assets/cheristinity-couple.jpg" }, 
-    { desktop: "src/assets/sickh-couple.jpg" }, 
+    { desktop: "https://ik.imagekit.io/rbrxweg2q/couple.jpeg" }, 
+    { desktop: "https://ik.imagekit.io/rbrxweg2q/muslim-couple.jpg" }, 
+    { desktop: "https://ik.imagekit.io/rbrxweg2q/sickh-couple.jpg" }, 
+    { desktop: "https://ik.imagekit.io/rbrxweg2q/cheristinity-couple.jpg" }, 
   ];
 
   useEffect(() => {

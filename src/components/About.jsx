@@ -26,16 +26,13 @@ const About = () => {
     /* 🔥 id="about-section" add ki hai scroll ke liye */
     <div id="about-section" className="w-full min-h-screen bg-white">
       
-      {/* ========================================== */}
-      {/* HERO / HEADER SECTION */}
-      {/* ========================================== */}
       <div className="w-full bg-gradient-to-b from-[#fff0f5] to-white pt-32 pb-16 px-6 text-center relative overflow-hidden">
-        {/* Background decorative elements */}
+        
         <div className="absolute top-10 left-10 text-[#e02c5a]/10 rotate-12">
-          <Heart size={100} fill="currentColor" />
+          <Heart size={100} fill="currentColor"/>
         </div>
         <div className="absolute bottom-10 right-10 text-[#eab308]/10 -rotate-12">
-          <Heart size={80} fill="currentColor" />
+          <Heart size={80} fill="currentColor"/>
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto">
@@ -53,16 +50,11 @@ const About = () => {
         </div>
       </div>
 
-      {/* ========================================== */}
-      {/* MAIN CONTENT & FEATURES SECTION */}
-      {/* ========================================== */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 flex flex-col lg:flex-row gap-16 items-center">
         
-        {/* LEFT: Image Carousel & Decorative Graphic */}
         <div className="w-full lg:w-1/2 relative">
           <div className="aspect-square md:aspect-[4/3] bg-gray-100 rounded-[40px] overflow-hidden relative shadow-2xl border-4 border-white">
             
-            {/* 🔥 YAHI CHANGE KIYA HAI: Single img ko hata kar map function se slider bana diya */}
             {aboutImages.map((img, index) => (
               <img 
                 key={index}
@@ -74,15 +66,13 @@ const About = () => {
               />
             ))}
 
-            {/* Light pink overlay tint (pointer-events-none zaroori hai) */}
             <div className="absolute inset-0 bg-[#e02c5a]/10 mix-blend-overlay pointer-events-none"></div>
           </div>
           
-          {/* Floating Badge */}
           <div className="absolute -bottom-6 -right-2 md:-right-6 bg-white p-5 rounded-3xl shadow-[0_10px_30px_rgba(224,44,90,0.15)] flex flex-col items-center gap-1 border border-gray-50 z-10">
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
-                <Heart key={i} size={16} fill="#fbbf24" className="text-[#fbbf24]" />
+                <Heart key={i} size={16} fill="#fbbf24" className="text-[#fbbf24]"/>
               ))}
             </div>
             <span className="font-bold text-gray-800 text-sm mt-1">1M+ Matches</span>
@@ -90,7 +80,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* RIGHT: Text & Features Grid */}
         <div className="w-full lg:w-1/2 flex flex-col gap-6">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#821511] leading-tight">
             Why Choose Local Shaadi?
@@ -101,10 +90,9 @@ const About = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-6">
             
-            {/* Feature 1 */}
             <div className="flex gap-4 items-start group">
               <div className="p-3.5 bg-[#fff0f5] rounded-2xl text-[#e02c5a] group-hover:bg-[#e02c5a] group-hover:text-white transition-colors duration-300 shadow-sm">
-                <ShieldCheck size={24} strokeWidth={2} />
+                <ShieldCheck size={24} strokeWidth={2}/>
               </div>
               <div>
                 <h3 className="font-bold text-gray-800 text-lg">100% Verified</h3>
@@ -112,10 +100,9 @@ const About = () => {
               </div>
             </div>
 
-            {/* Feature 2 */}
             <div className="flex gap-4 items-start group">
               <div className="p-3.5 bg-[#fff0f5] rounded-2xl text-[#eab308] group-hover:bg-[#eab308] group-hover:text-white transition-colors duration-300 shadow-sm">
-                <MapPin size={24} strokeWidth={2} />
+                <MapPin size={24} strokeWidth={2}/>
               </div>
               <div>
                 <h3 className="font-bold text-gray-800 text-lg">Local Matches</h3>
@@ -123,10 +110,9 @@ const About = () => {
               </div>
             </div>
 
-            {/* Feature 3 */}
             <div className="flex gap-4 items-start group">
               <div className="p-3.5 bg-[#fff0f5] rounded-2xl text-[#e02c5a] group-hover:bg-[#e02c5a] group-hover:text-white transition-colors duration-300 shadow-sm">
-                <Users size={24} strokeWidth={2} />
+                <Users size={24} strokeWidth={2}/>
               </div>
               <div>
                 <h3 className="font-bold text-gray-800 text-lg">Active Community</h3>
@@ -134,10 +120,9 @@ const About = () => {
               </div>
             </div>
 
-            {/* Feature 4 */}
             <div className="flex gap-4 items-start group">
               <div className="p-3.5 bg-[#fff0f5] rounded-2xl text-[#821511] group-hover:bg-[#821511] group-hover:text-white transition-colors duration-300 shadow-sm">
-                <Heart size={24} strokeWidth={2} />
+                <Heart size={24} strokeWidth={2}/>
               </div>
               <div>
                 <h3 className="font-bold text-gray-800 text-lg">Success Stories</h3>

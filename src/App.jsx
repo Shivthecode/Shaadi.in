@@ -6,6 +6,7 @@ import About from './components/About';
 import Footer from './components/Footer';
 import Login from './components/Login'; // Tumhara naya Login component import kar liya
 import Help from './pages/Help'; // Tumhara naya Help page import kar liya
+import PersonalProfile from './pages/PersonalProfile'; // Tumhara naya PersonalProfile page import kar liya
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             {/* LOGIN PAGE ROUTE (Jab URL "/login" ho) */}
             <Route path="/login" element={<Login />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/profile-setup" element={<PersonalProfile />} />
           </Routes>
         </main>
         

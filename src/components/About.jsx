@@ -7,7 +7,7 @@ const About = () => {
 
   // 🔥 ImageKit Links
   const aboutImages = [
-    "https://ik.imagekit.io/rbrxweg2q/crop2.jpg",
+    "https://ik.imagekit.io/rbrxweg2q/muslimm%20crp2.jpeg",
     "https://ik.imagekit.io/rbrxweg2q/crop1.jpg",
     "https://ik.imagekit.io/rbrxweg2q/crop3.jpg",
     "https://ik.imagekit.io/rbrxweg2q/couple-about.png"

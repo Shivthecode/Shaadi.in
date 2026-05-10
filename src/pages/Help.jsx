@@ -58,7 +58,8 @@ const Help = () => {
             </div>
             <h3 className="font-bold text-gray-800 text-lg mb-1">Call Us</h3>
             <p className="text-gray-500 text-sm mb-3">Mon-Sat from 10am to 6pm</p>
-            <a href="tel:+911234567890" className="text-[#e02c5a] font-bold hover:underline">+91 12345 67890</a>
+            {/* 🔥 Updated Call Number */}
+            <a href="tel:+919005520320" className="text-[#e02c5a] font-bold hover:underline">+91 90055 20320</a>
           </div>
 
           {/* Card 2 */}
@@ -78,7 +79,8 @@ const Help = () => {
             </div>
             <h3 className="font-bold text-gray-800 text-lg mb-1">WhatsApp</h3>
             <p className="text-gray-500 text-sm mb-3">Instant chat support</p>
-            <a href="#" className="text-[#e02c5a] font-bold hover:underline">Start Chat</a>
+            {/* 🔥 Updated WhatsApp Link */}
+            <a href="https://wa.me/919005520320" target="_blank" rel="noopener noreferrer" className="text-[#e02c5a] font-bold hover:underline">Start Chat</a>
           </div>
         </div>
 

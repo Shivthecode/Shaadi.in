@@ -4,25 +4,24 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Footer from './components/Footer';
-import Login from './components/Login'; // Tumhara naya Login component import kar liya
-import Help from './pages/Help'; // Tumhara naya Help page import kar liya
-import PersonalProfile from './pages/PersonalProfile'; // Tumhara naya PersonalProfile page import kar liya
+import Login from './components/Login'; 
+import Help from './pages/Help'; 
+import PersonalProfile from './pages/PersonalProfile'; 
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-[#fff0f5] flex flex-col font-sans">
-        
-        {/* Navbar har page par dikhega isliye isko Routes ke bahar rakha hai */}
-        <Navbar />
-        
         <main className="flex-grow">
           <Routes>
-            {/* HOME PAGE ROUTE (Jab URL "/" ho) */}
+            
+            {/* 🔥 YAHAN Navbar, Hero, About aur Footer ek sath hain (HOME PAGE) */}
             <Route 
               path="/" 
               element={
                 <>
+                  <Navbar />
                   <Hero />
                   <About />
                   <Footer />
@@ -30,13 +29,25 @@ function App() {
               } 
             />
 
-            {/* LOGIN PAGE ROUTE (Jab URL "/login" ho) */}
+            {/* Help page pe Navbar aur Footer chahiye */}
+            <Route 
+              path="/help" 
+              element={
+                <>
+                  <Navbar />
+                  <Help />
+                  <Footer />
+                </>
+              } 
+            />
+
+            {/* 🔥 IN PAGES PAR NAVBAR NAHI DIKHEGA */}
             <Route path="/login" element={<Login />} />
-            <Route path="/help" element={<Help />} />
             <Route path="/profile-setup" element={<PersonalProfile />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            
           </Routes>
         </main>
-        
       </div>
     </Router>
   );

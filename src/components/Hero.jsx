@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, MapPin, Phone, UserPlus } from 'lucide-react'; // Video hata diya kyunki WhatsApp SVG use kiya hai
+import { Heart, MapPin, Phone, UserPlus } from 'lucide-react'; 
+import { Link } from 'react-router-dom'; 
 
 const Hero = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -13,7 +14,6 @@ const Hero = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // ✅ Window check added for safe Vercel build
       if (typeof window !== 'undefined' && window.innerWidth >= 768) { 
         setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
       }
@@ -81,7 +81,8 @@ const Hero = () => {
             <span className="text-[#e02c5a] font-sans font-bold text-[22px] md:text-[26px] tracking-wide">Your Nearby</span>
           </div>
           
-          <div className="flex items-center justify-center md:justify-start w-full max-w-[280px] md:max-w-[360px] gap-3 md:gap-4 mt-5 md:mt-6 mb-4 md:mb-4 mx-auto md:mx-0 ml-0 md:ml-1">
+          {/* 🔥 FIX: Yahan wrapper se 'ml-0' hata diya taaki mobile par strictly center rahe */}
+          <div className="flex items-center justify-center md:justify-start w-full max-w-[280px] md:max-w-[360px] gap-3 md:gap-4 mt-5 md:mt-6 mb-4 md:mb-4 mx-auto md:mx-0 md:ml-1">
             <div className="h-[1px] flex-1 bg-gray-300 md:bg-gray-400/50"></div>
             <Heart size={12} fill="#e02c5a" className="text-[#e02c5a] md:w-[13px] md:h-[13px]" strokeWidth={0} />
             <div className="h-[1px] flex-1 bg-gray-400/50"></div>
@@ -95,16 +96,15 @@ const Hero = () => {
           
           <div className="w-full flex justify-center md:justify-start mt-6 md:mt-5 ml-0 md:ml-1">
             <div className="p-[5px] rounded-full bg-[#e02c5a]/15 shadow-[0_0_20px_rgba(224,44,90,0.2)] md:shadow-[0_0_15px_rgba(224,44,90,0.25)]">
-              <button className="relative flex items-center justify-center gap-2 md:gap-2.5 bg-gradient-to-r from-[#ed2c5b] to-[#c0163e] text-white px-8 py-3.5 md:px-8 md:py-3.5 rounded-full text-[16px] md:text-[18px] font-bold w-[240px] md:w-[260px] hover:opacity-95 transition-all overflow-hidden active:scale-95">
+              <Link to="/login" className="relative flex items-center justify-center gap-2 md:gap-2.5 bg-gradient-to-r from-[#ed2c5b] to-[#c0163e] text-white px-8 py-3.5 md:px-8 md:py-3.5 rounded-full text-[16px] md:text-[18px] font-bold w-[240px] md:w-[260px] hover:opacity-95 transition-all overflow-hidden active:scale-95">
                 <div className="absolute inset-0 rounded-full border-[1.5px] border-[#fde68a]/40 m-[1px]"></div>
                 <UserPlus size={20} className="relative z-10 md:w-[22px] md:h-[22px]" fill="white" strokeWidth={1.5} />
                 <span className="relative z-10 tracking-wide">New Join</span>
-              </button>
+              </Link>
             </div>
           </div>
 
           <div className="flex md:hidden items-center justify-between w-full max-w-[320px] mx-auto mt-12 bg-white/70 backdrop-blur-xl p-2 rounded-[24px] shadow-[0_10px_40px_rgba(224,44,90,0.12)] border border-white/60">
-            {/* 🔥 MOBILE CALL BUTTON */}
             <a href="tel:+919005520320" className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-[18px] hover:bg-white active:bg-white/80 transition-all group">
               <div className="bg-[#fff0f5] p-2.5 rounded-full text-[#e02c5a] group-hover:scale-110 transition-transform">
                 <Phone size={18} fill="currentColor" />
@@ -114,7 +114,6 @@ const Hero = () => {
             
             <div className="w-[2px] h-10 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-1"></div>
             
-            {/* 🔥 MOBILE WHATSAPP BUTTON */}
             <a href="https://wa.me/919005520320" target="_blank" rel="noopener noreferrer" className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-[18px] hover:bg-white active:bg-white/80 transition-all group">
               <div className="bg-[#fff0f5] p-2.5 rounded-full text-[#e02c5a] group-hover:scale-110 transition-transform">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +129,6 @@ const Hero = () => {
 
       {/* CONTACT PANEL */}
       <div className="hidden md:flex absolute right-6 lg:right-12 top-[45%] -translate-y-1/2 z-40 bg-white/95 backdrop-blur-sm rounded-[35px] py-4 px-3.5 shadow-[0_8px_25px_rgba(0,0,0,0.1)] border border-gray-100 flex-col items-center gap-4">
-        {/* 🔥 DESKTOP CALL BUTTON */}
         <a href="tel:+919005520320" className="flex flex-col items-center gap-1.5 hover:scale-105 transition-transform group">
           <div className="w-[50px] h-[50px] rounded-full border-2 border-gray-200 flex items-center justify-center text-[#e02c5a] bg-white shadow-sm group-hover:bg-[#fff0f5] group-hover:border-[#e02c5a]/30 transition-all">
             <Phone size={20} fill="currentColor" />
@@ -138,8 +136,6 @@ const Hero = () => {
           <span className="text-[11px] text-gray-800 font-bold tracking-wide">Call</span>
         </a>
         <div className="w-6 border-b-2 border-dotted border-gray-300"></div>
-        
-        {/* 🔥 DESKTOP WHATSAPP BUTTON */}
         <a href="https://wa.me/919005520320" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1.5 hover:scale-105 transition-transform group">
           <div className="w-[50px] h-[50px] rounded-full border-2 border-gray-200 flex items-center justify-center text-[#e02c5a] bg-white shadow-sm group-hover:bg-[#fff0f5] group-hover:border-[#e02c5a]/30 transition-all">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

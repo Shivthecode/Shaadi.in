@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Heart, MessageSquare, Search, ChevronDown, User, 
-  Camera, Eye, Star, CheckCircle, Menu, X, Home,
+  Camera, Eye, Star, CheckCircle, Home,
   Bell, Filter, SlidersHorizontal, MapPin
 } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   // Mock User Data
   const userData = {
@@ -22,7 +21,7 @@ const Dashboard = () => {
     stats: {
       views: 125,
       matches: 18,
-      messages: '09',
+      notifications: '12', 
       shortlisted: '07',
       whoViewed: 15
     }
@@ -74,64 +73,68 @@ const Dashboard = () => {
   return (
     <div className={`min-h-screen bg-[#f8fafc] font-sans pb-24 md:pb-20 ${hideScrollbar}`}>
       
-      {/* ================= MOBILE HEADER (Visible only on mobile) ================= */}
+      {/* ================= MOBILE HEADER ================= */}
       <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white sticky top-0 z-50 shadow-sm">
-        <button onClick={() => setIsMobileOpen(true)}>
-          <Menu size={28} className="text-gray-800" />
-        </button>
-        <div className="flex items-center gap-1.5 cursor-pointer">
+        {/* Hamburger Menu Removed Here */}
+        <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => navigate('/dashboard')}>
           <Heart size={24} className="text-[#e02c5a]" fill="currentColor" />
           <h1 className="text-xl font-bold flex items-baseline">
             <span className="text-gray-900 tracking-tight">LocalShaadi</span>
             <span className="text-gray-900 text-[10px]">.com</span>
           </h1>
         </div>
-        <div className="relative">
+        
+        <button onClick={() => navigate('/notifications')} className="relative focus:outline-none">
           <Bell size={24} className="text-gray-800" />
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">3</span>
-        </div>
+        </button>
       </div>
-
-      {/* Mobile Sliding Sidebar (Just as a fallback for the hamburger menu) */}
-      {isMobileOpen && (
-        <div className="fixed inset-0 z-[60] flex md:hidden">
-          <div className="fixed inset-0 bg-black/50" onClick={() => setIsMobileOpen(false)}></div>
-          <div className="relative w-64 bg-white h-full flex flex-col p-4 shadow-xl">
-            <button className="absolute top-4 right-4 text-gray-500" onClick={() => setIsMobileOpen(false)}><X size={24}/></button>
-            <h2 className="text-xl font-bold text-[#e02c5a] mb-8 mt-2">Menu</h2>
-            <div className="flex flex-col gap-4 text-gray-700 font-medium">
-              <a href="#" className="py-2 border-b">Home</a>
-              <a href="#" className="py-2 border-b">Premium</a>
-              <a href="#" className="py-2 border-b">Settings</a>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ================= DESKTOP TOP NAVBAR ================= */}
       <nav className="hidden md:block bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+          
+          {/* Logo */}
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/dashboard')}>
             <Heart size={28} className="text-[#e02c5a]" fill="currentColor" />
             <h1 className="text-xl font-bold flex items-baseline">
               <span className="text-gray-900 tracking-tight">LocalShaadi</span>
               <span className="text-gray-900 text-sm">.com</span>
             </h1>
           </div>
+          
+          {/* Menu Links */}
           <div className="flex items-center gap-8 font-medium text-gray-700">
             <a href="#" className="text-[#e02c5a] border-b-2 border-[#e02c5a] py-7">Home</a>
-            <a href="#" className="hover:text-[#e02c5a] py-7 transition-colors">Search</a>
-            <a href="#" className="hover:text-[#e02c5a] py-7 transition-colors">Matches</a>
-            <a href="#" className="hover:text-[#e02c5a] py-7 transition-colors flex items-center gap-1">
-              Messages
-              <span className="bg-[#e02c5a] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full -mt-3">3</span>
-            </a>
+            
+            <button onClick={() => navigate('/matches')} className="hover:text-[#e02c5a] py-7 transition-colors">Matches</button>
+            
+            <button onClick={() => navigate('/notifications')} className="hover:text-[#e02c5a] py-7 transition-colors flex items-center gap-1 relative focus:outline-none">
+              Notifications
+              <span className="bg-[#e02c5a] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full -mt-3 absolute -right-4 top-5">3</span>
+            </button>
             <a href="#" className="hover:text-[#e02c5a] py-7 transition-colors">Premium</a>
           </div>
-          <button onClick={() => navigate('/profile-setup')} className="flex items-center gap-2 bg-[#e02c5a] hover:bg-[#c0163e] text-white px-5 py-2.5 rounded-full font-semibold transition-colors shadow-sm">
-            <User size={18} />
-            <span>My Profile</span>
-          </button>
+          
+          {/* Search & Profile Container (Right Aligned) */}
+          <div className="flex items-center gap-4">
+            {/* Search Input right before profile button */}
+            <div className="relative flex items-center">
+              <Search size={18} className="absolute left-3 text-gray-400" />
+              <input 
+                type="text" 
+                placeholder="Search name, ID..." 
+                className="pl-10 pr-4 py-2 w-56 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:bg-white focus:border-[#e02c5a] focus:ring-2 focus:ring-[#e02c5a]/20 transition-all"
+              />
+            </div>
+
+            {/* Profile Button */}
+            <button onClick={() => navigate('/final-profile')} className="flex items-center gap-2 bg-[#e02c5a] hover:bg-[#c0163e] text-white px-5 py-2.5 rounded-full font-semibold transition-colors shadow-sm shrink-0">
+              <User size={18} />
+              <span>My Profile</span>
+            </button>
+          </div>
+          
         </div>
       </nav>
 
@@ -147,7 +150,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* ================= DESKTOP FLOATING SEARCH ================= */}
+      {/* ================= DESKTOP FLOATING FILTER BAR ================= */}
       <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-12 z-20 mb-8">
         <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-6 border border-gray-100 flex items-center gap-4">
           <div className="flex-1 border-r border-gray-100 pr-4">
@@ -168,15 +171,14 @@ const Dashboard = () => {
           </div>
           <div className="pl-4">
             <button className="bg-[#e02c5a] hover:bg-[#c0163e] text-white px-8 py-3.5 rounded-xl font-bold transition-colors flex items-center gap-2 shadow-sm">
-              <Search size={18} /> Search
+              <Filter size={18} /> Apply
             </button>
           </div>
         </div>
       </div>
 
-      {/* ================= MOBILE SEARCH & FILTERS (Visible only on mobile) ================= */}
+      {/* ================= MOBILE SEARCH & FILTERS ================= */}
       <div className="md:hidden px-4 pt-4 pb-2 bg-white">
-        {/* Search Bar */}
         <div className="relative mb-4">
           <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input 
@@ -187,7 +189,6 @@ const Dashboard = () => {
           <Filter size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#e02c5a]" />
         </div>
         
-        {/* Horizontal Scroll Pills */}
         <div className={`flex overflow-x-auto gap-2.5 pb-2 ${hideScrollbar}`}>
           <button className="flex items-center gap-1.5 px-4 py-2 border border-[#e02c5a] rounded-xl text-[#e02c5a] font-medium text-sm whitespace-nowrap">
             <User size={16}/> Bride
@@ -221,16 +222,15 @@ const Dashboard = () => {
             <button className="hidden md:flex text-sm text-gray-600 font-medium items-center gap-1 hover:text-gray-900 transition-colors">
               Sort by: Recently Joined <ChevronDown size={16} />
             </button>
-            <button className="md:hidden text-sm font-bold text-[#e02c5a]">
+            <button onClick={() => navigate('/matches')} className="md:hidden text-sm font-bold text-[#e02c5a]">
               View All
             </button>
           </div>
 
-          {/* Profile Cards Loop (Fully responsive, horizontal on mobile too) */}
+          {/* Profile Cards Loop */}
           {recommendedProfiles.map((profile) => (
-            <div key={profile.id} className="bg-white rounded-2xl p-3 sm:p-5 shadow-sm border border-gray-100 flex flex-row gap-3 sm:gap-5 hover:shadow-md transition-shadow">
+            <div key={profile.id} className="bg-white rounded-2xl p-3 sm:p-5 shadow-sm border border-gray-100 flex flex-row gap-3 sm:gap-5 hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/matches')}>
               
-              {/* Card Image */}
               <div className="relative w-[100px] sm:w-36 h-[130px] sm:h-[180px] shrink-0 rounded-xl overflow-hidden bg-gray-100">
                 <img src={profile.img} alt={profile.name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -244,7 +244,6 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Card Details */}
               <div className="flex-1 flex flex-col justify-center py-1">
                 <h4 className="text-[15px] sm:text-lg font-bold text-gray-900 flex items-center gap-1 mb-1">
                   {profile.name}
@@ -258,12 +257,11 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Card Actions */}
               <div className="flex flex-col justify-center items-end gap-2 sm:gap-3 pl-1">
-                <button className="p-2 sm:p-2.5 rounded-full border border-gray-200 text-[#e02c5a] hover:bg-[#fff0f5] transition-all shadow-sm">
+                <button className="p-2 sm:p-2.5 rounded-full border border-gray-200 text-[#e02c5a] hover:bg-[#fff0f5] transition-all shadow-sm" onClick={(e) => { e.stopPropagation(); navigate('/matches'); }}>
                   <Heart size={18} className="sm:w-5 sm:h-5" />
                 </button>
-                <button className="p-2 sm:p-2.5 rounded-full border border-gray-200 text-gray-600 hover:text-[#e02c5a] hover:border-[#e02c5a] transition-all shadow-sm">
+                <button className="p-2 sm:p-2.5 rounded-full border border-gray-200 text-gray-600 hover:text-[#e02c5a] hover:border-[#e02c5a] transition-all shadow-sm" onClick={(e) => { e.stopPropagation(); navigate('/matches'); }}>
                   <MessageSquare size={18} className="sm:w-5 sm:h-5" />
                 </button>
               </div>
@@ -271,15 +269,14 @@ const Dashboard = () => {
             </div>
           ))}
 
-          {/* Load More Button (Desktop Only) */}
           <div className="hidden md:flex pt-6 pb-10 justify-center">
-            <button className="flex items-center gap-2 px-8 py-3 rounded-full border-2 border-[#e02c5a]/20 text-[#e02c5a] font-bold hover:bg-[#fff0f5] transition-colors">
+            <button onClick={() => navigate('/matches')} className="flex items-center gap-2 px-8 py-3 rounded-full border-2 border-[#e02c5a]/20 text-[#e02c5a] font-bold hover:bg-[#fff0f5] transition-colors">
               View More Profiles <ChevronDown size={18} />
             </button>
           </div>
         </div>
 
-        {/* RIGHT COLUMN: MY PROFILE WIDGET (Hidden on Mobile) */}
+        {/* RIGHT COLUMN: MY PROFILE WIDGET */}
         <div className="hidden lg:block lg:col-span-1">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-28">
             <h3 className="text-xl font-bold text-gray-900 mb-6">My Profile</h3>
@@ -310,12 +307,13 @@ const Dashboard = () => {
                 <span className="flex items-center gap-3 text-gray-700"><Heart size={18} className="text-[#e02c5a]" /> Matches</span>
                 <span className="text-gray-900 font-bold">{userData.stats.matches}</span>
               </div>
-              <div className="flex items-center justify-between text-sm font-medium">
-                <span className="flex items-center gap-3 text-gray-700"><MessageSquare size={18} className="text-gray-400" /> Messages</span>
-                <span className="text-gray-900 font-bold">{userData.stats.messages}</span>
-              </div>
+              
+              <button onClick={() => navigate('/notifications')} className="w-full flex items-center justify-between text-sm font-medium focus:outline-none hover:text-[#e02c5a] transition-colors group">
+                <span className="flex items-center gap-3 text-gray-700 group-hover:text-[#e02c5a]"><Bell size={18} className="text-gray-400 group-hover:text-[#e02c5a]" /> Notifications</span>
+                <span className="text-gray-900 font-bold group-hover:text-[#e02c5a]">{userData.stats.notifications}</span>
+              </button>
             </div>
-            <button onClick={() => navigate('/profile-setup')} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-[#e02c5a]/20 text-[#e02c5a] font-bold hover:bg-[#fff0f5] transition-colors">
+            <button onClick={() => navigate('/final-profile')} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-[#e02c5a]/20 text-[#e02c5a] font-bold hover:bg-[#fff0f5] transition-colors">
               <User size={18} /> View & Edit Profile
             </button>
           </div>
@@ -325,31 +323,31 @@ const Dashboard = () => {
 
       {/* ================= BOTTOM NAVIGATION BAR (Mobile Only) ================= */}
       <div className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 flex justify-around items-center h-[72px] z-50 px-2 pb-2">
-        <button className="flex flex-col items-center justify-center gap-1 w-16 text-[#e02c5a]">
-          <Home size={22} fill="currentColor" />
-          <span className="text-[10px] font-bold">Home</span>
+        <button onClick={() => navigate('/dashboard')} className="flex flex-col items-center justify-center gap-1 w-16 text-gray-500 hover:text-gray-900">
+          <Home size={22} />
+          <span className="text-[10px] font-medium">Home</span>
         </button>
-        <button className="flex flex-col items-center justify-center gap-1 w-16 text-gray-500 hover:text-gray-900">
+        <button onClick={() => navigate('/dashboard')} className="flex flex-col items-center justify-center gap-1 w-16 text-gray-500 hover:text-gray-900">
           <Search size={22} />
           <span className="text-[10px] font-medium">Search</span>
         </button>
-        <button className="flex flex-col items-center justify-center gap-1 w-16 text-gray-500 hover:text-gray-900">
-          <Heart size={22} />
-          <span className="text-[10px] font-medium">Matches</span>
-        </button>
-        <button className="flex flex-col items-center justify-center gap-1 w-16 text-gray-500 hover:text-gray-900 relative">
-          <MessageSquare size={22} />
-          <span className="absolute top-0 right-3 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">2</span>
-          <span className="text-[10px] font-medium">Messages</span>
+        <button onClick={() => navigate('/matches')} className="flex flex-col items-center justify-center gap-1 w-16 text-gray-500 hover:text-[#e02c5a]">
+          <Heart size={22} fill="currentColor" />
+          <span className="text-[10px] font-bold">Matches</span>
         </button>
         
-        {/* Highlighted Profile Button */}
+        <button onClick={() => navigate('/notifications')} className="flex flex-col items-center justify-center gap-1 w-16 text-gray-500 hover:text-[#e02c5a] relative focus:outline-none">
+          <Bell size={22} />
+          <span className="absolute top-0 right-3 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">3</span>
+          <span className="text-[10px] font-medium">Notifs</span>
+        </button>
+        
         <button 
-          onClick={() => navigate('/profile-setup')}
-          className="flex flex-col items-center justify-center gap-1 bg-[#e02c5a] text-white w-16 h-14 rounded-xl -mt-4 shadow-lg border-2 border-white"
+          onClick={() => navigate('/final-profile')}
+          className="flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-gray-900 w-16"
         >
-          <User size={20} />
-          <span className="text-[9px] font-bold">My Profile</span>
+          <User size={22} />
+          <span className="text-[10px] font-medium">Profile</span>
         </button>
       </div>
 

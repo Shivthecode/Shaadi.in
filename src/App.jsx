@@ -8,6 +8,9 @@ import Login from './components/Login';
 import Help from './pages/Help'; 
 import PersonalProfile from './pages/PersonalProfile'; 
 import Dashboard from './pages/Dashboard';
+import Matches from './pages/Matches'; // 🔥 Matches component import kiya
+import FinalProfile from './pages/FinalProfile';
+import Notifications from './pages/Notifications';
 
 function App() {
   return (
@@ -45,6 +48,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/profile-setup" element={<PersonalProfile />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            
+            {/* 🔥 MATCHES PAGE ROUTE (Yahan add kiya hai) */}
+            <Route path="/matches" element={<Matches />} />
+            <Route path="/final-profile" element={<FinalProfile />} />
+            <Route path="/notifications" element={<Notifications />} />
             
           </Routes>
         </main>

@@ -6,11 +6,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const PersonalProfile = () => {
-  // 🔥 Photo aur Crop Modal ke naye states
-  const [profileImage, setProfileImage] = useState(null); // Final image
-  const [tempImage, setTempImage] = useState(null); // Uploaded original image
+  // 🔥 Photo aur Crop Modal states
+  const [profileImage, setProfileImage] = useState(null); 
+  const [tempImage, setTempImage] = useState(null); 
   const [showCropModal, setShowCropModal] = useState(false);
-  const [imageZoom, setImageZoom] = useState(1); // Zoom level for cropping
+  const [imageZoom, setImageZoom] = useState(1); 
 
   const [formData, setFormData] = useState({
     profileFor: '',
@@ -20,6 +20,8 @@ const PersonalProfile = () => {
     age: '',
     gender: '',
     maritalStatus: '',
+    height: '', // 🔥 New Field
+    complexion: '', // 🔥 New Field (Color)
     state: '',
     district: '',
     cityVillage: '',
@@ -29,12 +31,14 @@ const PersonalProfile = () => {
     category: '',
     occupation: '',
     income: '',
-    familyMembers: ''
+    familyMembers: '',
+    siblingCount: '0', // 🔥 New Field
+    siblings: [] // 🔥 Dynamic Sibling Array
   });
 
   const navigate = useNavigate();
 
-  // 🔥 Image Upload Handler (5MB Limit)
+  // Image Upload Handler (5MB Limit)
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -45,21 +49,51 @@ const PersonalProfile = () => {
         return;
       }
       setTempImage(URL.createObjectURL(file));
-      setImageZoom(1); // Reset zoom
-      setShowCropModal(true); // Crop popup open
+      setImageZoom(1); 
+      setShowCropModal(true); 
     }
   };
 
-  // 🔥 Save Cropped Image
   const handleSaveCrop = () => {
     setProfileImage(tempImage);
     setShowCropModal(false);
   };
 
+  // 🔥 Dynamic Sibling Generator
+  const handleSiblingCountChange = (e) => {
+    const countStr = e.target.value;
+    const count = parseInt(countStr) || 0;
+    let newSiblings = [...formData.siblings];
+
+    if (count > newSiblings.length) {
+      // Naye siblings add karo
+      const toAdd = count - newSiblings.length;
+      for (let i = 0; i < toAdd; i++) {
+        newSiblings.push({ name: '', maritalStatus: '' });
+      }
+    } else if (count < newSiblings.length) {
+      // Extra siblings hata do
+      newSiblings = newSiblings.slice(0, count);
+    }
+
+    setFormData({
+      ...formData,
+      siblingCount: countStr,
+      siblings: newSiblings
+    });
+  };
+
+  // 🔥 Sibling Data Updater
+  const handleSiblingDataChange = (index, field, value) => {
+    const updatedSiblings = [...formData.siblings];
+    updatedSiblings[index][field] = value;
+    setFormData({ ...formData, siblings: updatedSiblings });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Pincode strict validation
+    // Pincode validation
     if (name === 'pincode') {
       const onlyNums = value.replace(/[^0-9]/g, '');
       if (onlyNums.length <= 6) {
@@ -68,7 +102,7 @@ const PersonalProfile = () => {
       return;
     }
 
-    // 🔥 Auto Age Calculation
+    // Auto Age Calculation
     if (name === 'dob') {
       if (value) {
         const birthDate = new Date(value);
@@ -84,7 +118,7 @@ const PersonalProfile = () => {
           age: calculatedAge >= 18 ? calculatedAge : '' 
         }));
         
-        if(calculatedAge < 18 && calculatedAge >= 0) {
+        if (calculatedAge < 18 && calculatedAge >= 0) {
           alert("Age must be 18 or above to register.");
         }
       } else {
@@ -120,7 +154,6 @@ const PersonalProfile = () => {
               </button>
             </div>
             
-            {/* Circular Preview Cutout */}
             <div className="relative w-64 h-64 mx-auto rounded-full overflow-hidden bg-gray-100 border-4 border-dashed border-gray-300 mb-6 flex items-center justify-center shadow-inner">
               <img 
                 src={tempImage} 
@@ -131,7 +164,6 @@ const PersonalProfile = () => {
               <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
             </div>
 
-            {/* Zoom Slider */}
             <div className="flex items-center gap-3 mb-6 bg-gray-50 p-3 rounded-xl">
               <ZoomIn size={20} className="text-gray-500" />
               <input 
@@ -176,7 +208,7 @@ const PersonalProfile = () => {
 
         <form onSubmit={handleSubmit} className="space-y-8">
 
-          {/* ================= 📸 PHOTO UPLOAD SECTION (Fixed Layout) ================= */}
+          {/* ================= 📸 PHOTO UPLOAD SECTION ================= */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 hover:shadow-md transition-shadow">
             
             <div className="relative group w-32 h-32 shrink-0 rounded-full border-4 border-gray-100 hover:border-[#e02c5a]/50 transition-colors bg-gray-50 flex items-center justify-center overflow-hidden shadow-sm">
@@ -262,7 +294,7 @@ const PersonalProfile = () => {
                     type="text" 
                     value={formData.age !== '' ? `${formData.age} Yrs` : ''} 
                     readOnly 
-                    placeholder="Auto" 
+                    placeholder="Auto Fill" 
                     className={`px-4 py-3 border rounded-xl text-sm font-bold outline-none cursor-not-allowed transition-colors text-center w-full
                       ${formData.age !== '' ? 'bg-green-50 border-green-200 text-green-700' : 'bg-gray-100 border-gray-200 text-gray-400'}
                     `} 
@@ -278,6 +310,51 @@ const PersonalProfile = () => {
                   <option value="Divorced">Divorced</option>
                   <option value="Widowed">Widowed</option>
                   <option value="Awaiting Divorce">Awaiting Divorce</option>
+                </select>
+              </div>
+
+              {/* 🔥 NEW FIELD: Height */}
+              <div className="flex flex-col">
+                <label className="text-sm font-semibold text-gray-700 mb-1.5">Height <span className="text-red-500">*</span></label>
+                <select name="height" value={formData.height} onChange={handleChange} required className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:ring-2 focus:ring-[#e02c5a]/20 focus:border-[#e02c5a] outline-none transition-all">
+                  <option value="">Select Height</option>
+                  <option value="4'5&quot;">4' 5"</option>
+                  <option value="4'6&quot;">4' 6"</option>
+                  <option value="4'7&quot;">4' 7"</option>
+                  <option value="4'8&quot;">4' 8"</option>
+                  <option value="4'9&quot;">4' 9"</option>
+                  <option value="4'10&quot;">4' 10"</option>
+                  <option value="4'11&quot;">4' 11"</option>
+                  <option value="5'0&quot;">5' 0"</option>
+                  <option value="5'1&quot;">5' 1"</option>
+                  <option value="5'2&quot;">5' 2"</option>
+                  <option value="5'3&quot;">5' 3"</option>
+                  <option value="5'4&quot;">5' 4"</option>
+                  <option value="5'5&quot;">5' 5"</option>
+                  <option value="5'6&quot;">5' 6"</option>
+                  <option value="5'7&quot;">5' 7"</option>
+                  <option value="5'8&quot;">5' 8"</option>
+                  <option value="5'9&quot;">5' 9"</option>
+                  <option value="5'10&quot;">5' 10"</option>
+                  <option value="5'11&quot;">5' 11"</option>
+                  <option value="6'0&quot;">6' 0"</option>
+                  <option value="6'1&quot;">6' 1"</option>
+                  <option value="6'2&quot;">6' 2"</option>
+                  <option value="6'3&quot;">6' 3"</option>
+                  <option value="6'4&quot;">6' 4"</option>
+                  <option value="6'5&quot;">6' 5"</option>
+                </select>
+              </div>
+
+              {/* 🔥 NEW FIELD: Complexion (Color) */}
+              <div className="flex flex-col">
+                <label className="text-sm font-semibold text-gray-700 mb-1.5">Skin Tone / Complexion <span className="text-red-500">*</span></label>
+                <select name="complexion" value={formData.complexion} onChange={handleChange} required className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:ring-2 focus:ring-[#e02c5a]/20 focus:border-[#e02c5a] outline-none transition-all">
+                  <option value="">Select Complexion</option>
+                  <option value="Very Fair">Very Fair</option>
+                  <option value="Fair">Fair</option>
+                  <option value="Wheatish">Wheatish</option>
+                  <option value="Dark">Dark</option>
                 </select>
               </div>
             </div>
@@ -353,7 +430,7 @@ const PersonalProfile = () => {
             </div>
           </div>
 
-          {/* ================= CARD 4: CAREER & FAMILY ================= */}
+          {/* ================= CARD 4: CAREER & FAMILY (With Siblings) ================= */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 hover:shadow-md transition-shadow">
             <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">
               <div className="bg-purple-50 p-2 rounded-lg text-purple-600"><Briefcase size={20} /></div>
@@ -395,6 +472,65 @@ const PersonalProfile = () => {
                   <input type="number" name="familyMembers" value={formData.familyMembers} onChange={handleChange} placeholder="E.g. 4" min="1" className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:ring-2 focus:ring-[#e02c5a]/20 focus:border-[#e02c5a] outline-none transition-all" />
                 </div>
               </div>
+
+              {/* 🔥 NEW FIELD: Number of Siblings */}
+              <div className="flex flex-col">
+                <label className="text-sm font-semibold text-gray-700 mb-1.5">Number of Siblings</label>
+                <select name="siblingCount" value={formData.siblingCount} onChange={handleSiblingCountChange} className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:ring-2 focus:ring-[#e02c5a]/20 focus:border-[#e02c5a] outline-none transition-all">
+                  <option value="0">None</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5 or more</option>
+                </select>
+              </div>
+
+              {/* 🔥 DYNAMIC SIBLING FIELDS (Spans across the entire grid row) */}
+              {formData.siblings.length > 0 && (
+                <div className="col-span-1 md:col-span-3 mt-4 bg-[#f8fafc] border border-gray-200 rounded-2xl p-5 shadow-inner transition-all duration-300">
+                  <h3 className="text-gray-800 font-bold mb-4 flex items-center gap-2">
+                    <Users size={18} className="text-[#e02c5a]" /> Sibling Details
+                  </h3>
+                  
+                  <div className="space-y-4">
+                    {formData.siblings.map((sibling, index) => (
+                      <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm relative">
+                        <div className="absolute top-0 left-0 bg-[#fff0f5] text-[#e02c5a] text-[10px] font-bold px-2 py-1 rounded-br-lg rounded-tl-xl border-b border-r border-[#e02c5a]/20">
+                          #{index + 1}
+                        </div>
+                        
+                        <div className="flex flex-col pt-2 md:pt-0">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Sibling Name</label>
+                          <input 
+                            type="text" 
+                            value={sibling.name} 
+                            onChange={(e) => handleSiblingDataChange(index, 'name', e.target.value)} 
+                            placeholder="Enter name" 
+                            className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:ring-2 focus:ring-[#e02c5a]/20 focus:border-[#e02c5a] outline-none transition-all" 
+                          />
+                        </div>
+                        
+                        <div className="flex flex-col pt-2 md:pt-0">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Marital Status</label>
+                          <select 
+                            value={sibling.maritalStatus} 
+                            onChange={(e) => handleSiblingDataChange(index, 'maritalStatus', e.target.value)} 
+                            className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:ring-2 focus:ring-[#e02c5a]/20 focus:border-[#e02c5a] outline-none transition-all"
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Single">Single (Unmarried)</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Widowed">Widowed</option>
+                          </select>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             </div>
           </div>
 
